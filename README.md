@@ -2,13 +2,24 @@ Nitrokey App [![Build Status](https://travis-ci.org/Nitrokey/nitrokey-app.png?br
 ============
 Nitrokey App runs under Windows, Linux and Mac OS. Lately developed under Ubuntu 16.10 with Qt5.6.
 
-The implementation is compatible to the Google Authenticator application which can be used for testing purposes. See [google-authenticator](http://google-authenticator.googlecode.com/git/libpam/totp.html)
+The implementation is compatible to the Google Authenticator application which can be used for testing purposes. See [google-authenticator](http://google-authenticator.googlecode.com/git/libpam/totp.html).
 
-Using the application under Linux requires configuration of device privileges in udev (due to USB communication). The configuration is installed automatically with application (either with package or after `make install`). Without it application cannot communicate unless run with root privileges.
+Using the application under Linux requires configuration of device privileges in udev (due to USB communication). 
+The configuration is installed automatically with application (either with package or after `make install`). Without it application cannot communicate unless run with root privileges.
 
 Known issue: tray icon under Debian Jessie
 ----------------
 Under Debian Jessie application's tray icon might be unavailable. There were reports it can be fixed with updating Qt libraries to 5.4.2 version and up. The packages are available in experimental branch. For more details please refer to: https://github.com/Nitrokey/nitrokey-app/issues/86
+
+Advantages of App 1.x branch over 0.x 
+--------------------------
+Nitrokey App v1.0 uses `libnitrokey` for communication with device, making the code both testable and reusable. 
+Furthermore communication speed is vastly improved. Most of the code now makes requests to device in the background improving 
+GUI responsiveness. Also the delay between sending and receiving is decreased. Additionally Application is now lazy-loaded,
+which means it requests the data only when it needs them (it was earlier loading all OTP slot data to memory).
+
+Migration to `libnitrokey` comes with a cost of increasing compiler's requirements to be compliant with C++14 standard. 
+Fortunately most compatible compilers have been released in 2015 and all current ones should work.
 
 Installation and downloads
 -------------------------
@@ -32,11 +43,11 @@ sudo apt-get install libusb-1.0.0-dev cmake qt5-default
 
 #### Getting the Nitrokey Sources
 
-Clone the Nitrokey repository into your $HOME git folder.
+Clone the Nitrokey repository:
 
 ```
-cd $HOME
-mkdir git && cd git
+cd ~
+mkdir git && cd git # clone to subfolder
 git clone https://github.com/Nitrokey/nitrokey-app.git --recursive
 ```
 
@@ -44,7 +55,7 @@ git clone https://github.com/Nitrokey/nitrokey-app.git --recursive
 Prerequisites: Install Qt manually using [download page](http://www.qt.io/download-open-source/#section-2) or through package manager:
 ```
 sudo apt-get install qt5-default
-sudo apt-get install qtcreator #for compilation using IDE
+sudo apt-get install qtcreator # (optional) for compilation using IDE
 ```
 
 Use QT Creator (IDE) for compilation or perform the following steps:
@@ -82,7 +93,7 @@ sudo make install
 ```
 
 #### Using qmake:
-Please compile earlier libnitrokey (following instructions from its readme). QMake will search static libnitrokey library in `libnitrokey/build` directory.
+Please compile libnitrokey before App (following instructions from its readme). QMake will search static libnitrokey library in `libnitrokey/build` directory.
 ```
 qmake
 make -j4
@@ -99,9 +110,9 @@ make -j4 && make install
 
 
 
-#### Issues  with libusb
+#### Issues with libusb under Linux
 
-To compile the Nitrokey App under Linux install the package `libusb-1.0.0-dev` and QT Creator (optionally). In case it would not work out-of-the-box you may need to add to the .pro file:
+In case compilation would not work out-of-the-box you may need to add to the .pro file:
 ```
 QMAKE_CXXFLAGS= -I/usr/include/libusb-1.0
 QMAKE_CFLAGS= -I/usr/include/libusb-1.0
