@@ -42,6 +42,7 @@ env:
   global:
     - AF="-yq --no-install-suggests --no-install-recommends --force-yes"
 
+
 matrix:
   exclude:
   include:
@@ -49,15 +50,21 @@ matrix:
       osx_image: xcode7.3 #default
       before_install:
       env: builder=cmake PATH="/usr/local/opt/qt5/bin:$PATH" CMAKE_PREFIX_PATH=/usr/local/lib/cmake MACOS_DEPLOYMENT_TARGET=10.9
+      cache: &cache
+        directories:
+          - $HOME/Library/Caches/Homebrew
     - os: osx
       osx_image: xcode7.3 #default
       before_install:
       env: builder=qmake PATH="/usr/local/opt/qt5/bin:$PATH" CMAKE_PREFIX_PATH=/usr/local/lib/cmake MACOS_DEPLOYMENT_TARGET=10.9
+      cache: *cache
     - os: osx
       osx_image: xcode6.4
       before_install:
       env: builder=qmake PATH="/usr/local/opt/qt5/bin:$PATH" CMAKE_PREFIX_PATH=/usr/local/lib/cmake MACOS_DEPLOYMENT_TARGET=10.9
+      cache: *cache
     - os: osx
       osx_image: xcode8.2
       before_install:
       env: builder=qmake PATH="/usr/local/opt/qt5/bin:$PATH" CMAKE_PREFIX_PATH=/usr/local/lib/cmake MACOS_DEPLOYMENT_TARGET=10.9
+      cache: &cache
