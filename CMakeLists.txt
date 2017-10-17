@@ -32,12 +32,40 @@ ADD_DEFINITIONS(-DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER_ID}, ${CMAKE_CXX_COMP
 ADD_DEFINITIONS(-DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS}")
 
 
-add_subdirectory (libnitrokey)
-
 IF(LIBNITROKEY_STATIC)
     SET(NK_LIB nitrokey-static)
 ELSE()
     SET(NK_LIB nitrokey)
+ENDIF()
+
+include(GNUInstallDirs)
+find_library(NK_LIB_PATH ${NK_LIB}
+        HINTS
+            ${CMAKE_INSTALL_LIBDIR}
+            /usr/
+            /usr/local/
+        PATH_SUFFIXES
+            lib
+        )
+find_path(NK_LIB_INCLUDE
+        NAMES
+            NitrokeyManager.h
+        HINTS
+            ${CMAKE_INSTALL_INCLUDEDIR}
+            /usr/
+            /usr/local/
+        PATH_SUFFIXES
+            ${CMAKE_INSTALL_INCLUDEDIR}/libnitrokey
+            libnitrokey
+        )
+IF(NK_LIB_PATH AND NK_LIB_INCLUDE)
+    SET(NK_LIB ${NK_LIB_PATH})
+    include_directories(NK_LIB_INCLUDE)
+    MESSAGE(STATUS "Libnitrokey found at: " ${NK_LIB_PATH})
+    MESSAGE(STATUS "Libnitrokey headers found at: " ${NK_LIB_INCLUDE})
+ELSE()
+    MESSAGE(STATUS "Libnitrokey not found in system path - compiling bundled library")
+    add_subdirectory (libnitrokey)
 ENDIF()
 
 # QT configuration
