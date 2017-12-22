@@ -122,6 +122,8 @@ private:
     QAction *Stick20ActionClearNewSDCardFound;
     QAction *Stick20ActionLockStickHardware;
     QAction *Stick20ActionResetUserPassword;
+    QAction *Stick20ActionSetReadonlyEncryptedVolume;
+    QAction *Stick20ActionSetReadWriteEncryptedVolume;
 
   void destroyThread();
 
@@ -129,6 +131,7 @@ private:
   QSignalMapper *mapper_TOTP;
   QSignalMapper *mapper_HOTP;
   QSignalMapper *mapper_PWS;
+
 };
 
 
