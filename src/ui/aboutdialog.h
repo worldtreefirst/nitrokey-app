@@ -22,6 +22,7 @@ namespace AboutDialogUI{
         struct {
             int majorFirmwareVersion;
             int minorFirmwareVersion;
+            int testFirmwareVersion;
             std::string cardSerial;
             int passwordRetryCount;
             int userPasswordRetryCount;
