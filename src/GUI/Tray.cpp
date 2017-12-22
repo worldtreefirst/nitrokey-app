@@ -554,9 +554,9 @@ void Tray::generateMenuForStorageDevice() {
       // Set RW active
       trayMenuSubConfigure->addAction(Stick20ActionSetReadWriteUncryptedVolume);
 
-      //TODO add only one depending on current read-write status of encrypted volume
-      trayMenuSubConfigure->addAction(Stick20ActionSetReadonlyEncryptedVolume);
-      trayMenuSubConfigure->addAction(Stick20ActionSetReadWriteEncryptedVolume);
+    //TODO add only one depending on current read-write status of encrypted volume
+    trayMenuSubConfigure->addAction(Stick20ActionSetReadonlyEncryptedVolume);
+    trayMenuSubConfigure->addAction(Stick20ActionSetReadWriteEncryptedVolume);
 
 //    if (FALSE == SdCardNotErased)
     if (status.SDFillWithRandomChars_u8)
